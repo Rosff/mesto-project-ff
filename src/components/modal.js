@@ -1,7 +1,7 @@
 export function openPopup(popup) {
   popup.classList.add("popup_is-opened");
-  popup.classList.add("popup_is-animated");
-  // при первом открытии попапа он резко выпадает, но нам в чате написали что таймаут лучше не использовать, если направите на путь истинный, как лучше сделать,буду благодарен
+  // popup.classList.add("popup_is-animated");
+  //Добавил в html разметку popup_is-animated
   //  setTimeout(function() {
   //   popup.style.opacity = '1';
   // });
