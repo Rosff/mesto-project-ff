@@ -1,6 +1,6 @@
 import "./pages/index.css";
 import { initialCards } from "./components/cards.js";
-import { createCard, deleteCard, likeOnCard } from "./components/card.js";
+import { createCard, deleteCard, likeCard } from "./components/card.js";
 import { openPopup, closePopup } from "./components/modal.js";
 
 const cardList = document.querySelector(".places__list");
@@ -8,23 +8,24 @@ const cardList = document.querySelector(".places__list");
 // Вывести карточки на страницу
 function renderInitialCards(deleteCard, listWhereFrom, listWhere) {
   listWhereFrom.forEach(function (item) {
-    listWhere.prepend(createCard(deleteCard, item, likeOnCard, openImage));
+    listWhere.prepend(createCard(deleteCard, item, likeCard, openImage));
   });
 }
 
 renderInitialCards(deleteCard, initialCards, cardList);
 //ПРОФИЛЬ
-//кнопка редактирования профиля, открытие окна 
+//кнопка редактирования профиля, открытие окна
 const buttonOpenProfile = document.querySelector(".profile__edit-button");
 buttonOpenProfile.addEventListener("click", function () {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
   openPopup(popupProfileEdit);
-  
 });
 //Новый профиль,новая жизнь
 const formProfileEdit = document.forms["edit-profile"];
-const jobInput = formProfileEdit.querySelector(".popup__input_type_description");
+const jobInput = formProfileEdit.querySelector(
+  ".popup__input_type_description"
+);
 const nameInput = formProfileEdit.querySelector(".popup__input_type_name");
 const profileDescription = document.querySelector(".profile__description");
 const profileTitle = document.querySelector(".profile__title");
@@ -35,37 +36,35 @@ const popupProfileEdit = document.querySelector(".popup_type_edit");
 const buttonCardNew = document.querySelector(".profile__add-button");
 const popupCardNew = document.querySelector(".popup_type_new-card");
 const popupImage = document.querySelector(".popup_type_image");
-buttonCardNew.addEventListener("click", function(){
+buttonCardNew.addEventListener("click", function () {
   openPopup(popupCardNew);
 });
 
-function submitNewForm(evt) {
-  evt.preventDefault(); 
+function handleProfileFormSubmit(evt) {
+  evt.preventDefault();
   const valueName = nameInput.value;
   const valueJob = jobInput.value;
   profileDescription.textContent = valueJob;
   profileTitle.textContent = valueName;
-  closePopup(popupProfileEdit)
+  closePopup(popupProfileEdit);
 }
 
-formProfileEdit.addEventListener("submit", submitNewForm);
+formProfileEdit.addEventListener("submit", handleProfileFormSubmit);
 
 //форма для новой кaрточки
 const formCard = document.forms["new-place"];
 const linkCard = formCard.querySelector(".popup__input_type_url");
 const nameCard = formCard.querySelector(".popup__input_type_card-name");
 
-function renderCard (deleteCard, listFrom, listWhere ){
-  listWhere.prepend(createCard(deleteCard, listFrom, likeOnCard, openImage));
+function renderCard(deleteCard, listFrom, listWhere) {
+  listWhere.prepend(createCard(deleteCard, listFrom, likeCard, openImage));
 }
 
 function submitAddForm(evt) {
-  const newCard = 
-    {name: nameCard.value,
-    link: linkCard.value,
-    };
+  evt.preventDefault(); // самое очевидное и забыл,спасибо)
+  const newCard = { name: nameCard.value, link: linkCard.value };
 
-  renderCard (deleteCard, newCard, cardList )
+  renderCard(deleteCard, newCard, cardList);
   closePopup(popupCardNew);
   formCard.reset();
 }
@@ -78,14 +77,11 @@ const image = popupImage.querySelector(".popup__image");
 const caption = popupImage.querySelector(".popup__caption");
 
 export function openImage(evt) {
-
   image.src = evt.target.src;
   caption.textContent = evt.target.alt;
   image.alt = evt.target.alt;
   openPopup(popupImage);
 }
-
-
 
 // мои эксперементы
 // function addRandomImage() {
@@ -99,11 +95,9 @@ export function openImage(evt) {
 //   document.body.appendChild(img);
 // }
 
-
 // function addRandomImage() {
 //   var img = document.createElement('img');
-//   var randomImageUrl = 'https://source.unsplash.com/random'; 
+//   var randomImageUrl = 'https://source.unsplash.com/random';
 //   img.src = randomImageUrl;
 //   document.body.appendChild(img);
 // }
-
