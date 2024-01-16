@@ -1,10 +1,8 @@
 export function openPopup(popup) {
-  popup.classList.add("popup_is-opened");
-  // popup.classList.add("popup_is-animated");
-  //Добавил в html разметку popup_is-animated
-  //  setTimeout(function() {
-  //   popup.style.opacity = '1';
-  // });
+  popup.classList.add("popup_is-animated"); // сначала анимация // https://skr.sh/sNoi4cs6QHF именно поэтому я не добавлял тайм-аут https://skr.sh/sNozo105Zuk
+  setTimeout(() => {
+    popup.classList.add("popup_is-opened"); // уже потом открытие
+  }, 1);
   popup.addEventListener("click", handlePopupClose);
   document.addEventListener("keydown", handleEscape);
 }
