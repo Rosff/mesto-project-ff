@@ -1,31 +1,33 @@
-export function openPopup(popup) {
-  popup.classList.add("popup_is-animated"); // сначала анимация // https://skr.sh/sNoi4cs6QHF именно поэтому я не добавлял тайм-аут https://skr.sh/sNozo105Zuk
-  setTimeout(() => {
-    popup.classList.add("popup_is-opened"); // уже потом открытие
-  }, 1);
-  popup.addEventListener("click", handlePopupClose);
-  document.addEventListener("keydown", handleEscape);
+function openModal(popup) {
+  popup.classList.add("popup_is-animated");
+  setTimeout(() => {popup.classList.add('popup_is-opened')},1)
+  document.addEventListener('keydown', closeModalOnEscape);
+  document.addEventListener('mousedown', closeModalOnOverlay);
 }
 
-export function closePopup(popup) {
-  popup.classList.remove("popup_is-opened");
-  popup.removeEventListener("click", handlePopupClose);
-  document.removeEventListener("keydown", handleEscape);
+function closeModal(popup) {
+  popup.classList.remove('popup_is-opened');
+  document.removeEventListener('keydown', closeModalOnEscape);
+  document.removeEventListener('mousedown', closeModalOnOverlay);
 }
 
-function handlePopupClose(evt) {
-  if (
-    evt.target.classList.contains("popup__close") ||
-    evt.target.classList.contains("popup")
-  ) {
-    closePopup(evt.currentTarget);
+function closeModalOnEscape(evt){
+  if (evt.key==='Escape') {
+      const popup = document.querySelector('.popup_is-opened');
+      closeModal(popup);
   }
 }
 
-function handleEscape(evt) {
-  console.log(evt.key);
-  if (evt.key === "Escape") {
-    const popup = document.querySelector(".popup_is-opened");
-    closePopup(popup);
+function closeModalOnOverlay(evt) {
+  if (evt.target.classList.contains('popup_is-opened')) {
+      const popup = document.querySelector('.popup_is-opened');
+      closeModal(popup);
   }
 }
+
+function handleCloseByButton(evt) {
+  const popup = evt.target.closest('.popup');
+  closeModal(popup);
+}
+
+export {openModal, closeModal, handleCloseByButton}
